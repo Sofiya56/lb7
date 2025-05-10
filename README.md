@@ -1,4 +1,5 @@
-# lb7
+# lb7                                                                                                        
+  
 завдання 13
 # Проект: Управління базою даних
 
@@ -23,3 +24,44 @@
 ## Інструкція для запуску контейнера:
 
 1. Створіть Docker контейнер з MSSQL сервером:
+  SETUP.SQL
+CREATE TABLE Products (
+  ProductID INT PRIMARY KEY,
+  ProductName NVARCHAR(100),
+  Price DECIMAL(10, 2)
+);
+
+CREATE TABLE Customers (
+  CustomerID INT PRIMARY KEY,
+  CustomerName NVARCHAR(100),
+  Email NVARCHAR(100)
+);
+
+INSERT INTO Products (ProductID, ProductName, Price)
+VALUES (1, 'Product A', 50.00), (2, 'Product B', 30.00);
+
+INSERT INTO Customers (CustomerID, CustomerName, Email)
+VALUES (1, 'Customer 1', 'customer1@example.com');
+ TRIGGERS.SQL 
+ CREATE TRIGGER trg_logon
+ON ALL SERVER
+FOR LOGON
+AS
+BEGIN
+  PRINT 'Користувач увійшов до системи';
+END;
+ INTEGRITY_CONSTRAINTS.SQL
+ -- Приклад обмеження цілісності (CHECK)
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Age INT CHECK (Age >= 18)
+);
+
+-- Обмеження зовнішнього ключа
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    EmployeeID INT,
+    OrderDate DATE,
+    CONSTRAINT FK_Employee FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
